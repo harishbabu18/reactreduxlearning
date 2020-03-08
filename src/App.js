@@ -1,26 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
+import CakeContainer from './component/CakeContainer'
+import {Provider} from 'react-redux'
+import store from './redux/store'
 import './App.css';
+import HooksCakeContainer from './component/HooksCakeContainer';
+import IceCreamContainer from './component/IceCreamContainer';
+import UserContainer from './component/UserContainer';
+import DescriptionAlerts from './component/DescriptionAlerts';
+import ComboBox from './component/ComboBox';
+import CustomizedTables from './component/CustomizedTable';
+import OfferingContainer from './component/OfferingContainer';
+import CompanyContainer from './component/CompanyContainer';
 
 function App() {
   return (
+    <Provider store={store}>
+        {/* <UserContainer /> */}
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  
+      {/* <OfferingContainer />
+      <HooksCakeContainer />
+     <CakeContainer />
+     <IceCreamContainer />
+    
+     <DescriptionAlerts />
+     <ComboBox />
+     <CustomizedTables /> */}
+      <CompanyContainer />
     </div>
+
+   
+
+
+ </Provider>
   );
 }
+
+
 
 export default App;
