@@ -1,4 +1,4 @@
-import {FETCH_COMPANYS_REQUEST,FETCH_COMPANYS_SUCCESS,FETCH_COMPANYS_FAILURE} from './companyType' 
+import {FETCH_COMPANYS_REQUEST,FETCH_COMPANYS_SUCCESS,LOADMORE_COMPANYS_REQUEST,LOADMORE_COMPANYS_SUCCESS,FETCH_COMPANYS_FAILURE} from './companyType' 
 import axios from 'axios'
  const fetchCompanysRequest = () => {
     return{
@@ -6,7 +6,7 @@ import axios from 'axios'
     }
 }
 
-const fetchCompanysSuccess = companys => {
+const fetchCompanysSuccess = (companys) => {
     return{
         type:FETCH_COMPANYS_SUCCESS,
         payload:companys
@@ -22,15 +22,35 @@ const fetchCompanysFailure = error => {
 }
 
 
+const loadCompanysSuccess = (companys) => {
+    return{
+        type:LOADMORE_COMPANYS_SUCCESS,
+        payload:companys
+    }
+}
 
 
+export const loadCompanys = (sort,order,max,offset) => {
+    return (dispatch) => {
+        dispatch(fetchCompanysRequest)
+        axios.get('http://localhost:8080/company?max='+max+'&offset='+offset+'&order='+order+'&sort='+sort)
+        .then(response => {
+            var companys = response.data.company
+            dispatch(loadCompanysSuccess(companys))
+        }).catch(error => {
+            const errorMsg = error.message
+            dispatch(fetchCompanysFailure(errorMsg))
+        }
+        )
+    }
+}
 
 export const fetchCompanys = (sort,order,max,offset) => {
     return (dispatch) => {
         dispatch(fetchCompanysRequest)
         axios.get('http://localhost:8080/company?max='+max+'&offset='+offset+'&order='+order+'&sort='+sort)
         .then(response => {
-            const companys =response.data.company
+            var companys = response.data.company
             dispatch(fetchCompanysSuccess(companys))
         }).catch(error => {
             const errorMsg = error.message

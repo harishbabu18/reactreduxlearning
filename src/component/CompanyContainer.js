@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector,useDispatch } from 'react-redux'
-import {fetchCompanys } from '../redux'
+import {fetchCompanys,loadCompanys } from '../redux'
 import { withStyles,makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Table from '@material-ui/core/Table';
@@ -48,10 +48,12 @@ const useStyles = makeStyles(theme => ({
     const classes = useStyles();
     const companydata = useSelector(state => state.company )
 
+
+
     const dispatch = useDispatch()
 
      useEffect(() => {
-         dispatch(fetchCompanys(companydata.sort,companydata.order,10,0))
+         dispatch(fetchCompanys(companydata.sort,companydata.order,10,companydata.offset))
      },[])
     return companydata.loading ?(
         <div className={classes.root}>
@@ -61,11 +63,18 @@ const useStyles = makeStyles(theme => ({
     <h1>{companydata.error}</h1>
         ) : (
           <TableContainer component={Paper}>
+            {JSON.stringify(companydata)}
+
+
+
+          {companydata.offset}
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
                 <StyledTableCell >
-                <TableSortLabel>
+                <TableSortLabel
+                onClick={() => dispatch(fetchCompanys(companydata.sort,"desc",10,0))}
+                >
                   company Name 
                 </TableSortLabel>
                 </StyledTableCell>
@@ -81,7 +90,7 @@ const useStyles = makeStyles(theme => ({
             </StyledTableRow>)}
             </TableBody>
       </Table>
-      <Button onClick={() => dispatch(fetchCompanys(companydata.sort,companydata.order,companydata.max,companydata.offset))}>Load More</Button>
+      <Button onClick={() => dispatch(loadCompanys(companydata.sort,companydata.order,companydata.max,companydata.offset))}>Load More</Button>
     </TableContainer>
         )
 }
