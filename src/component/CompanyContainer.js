@@ -28,8 +28,8 @@ const useStyles = makeStyles(theme => ({
 
   const StyledTableCell = withStyles(theme => ({
     head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: theme.palette.common.default,
+      color: theme.palette.common.default,
     },
     body: {
       fontSize: 14,
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
     const dispatch = useDispatch()
 
      useEffect(() => {
-         dispatch(fetchCompanys(companydata.sort,companydata.order,10,companydata.offset))
+         dispatch(fetchCompanys(companydata.sort,companydata.order,10,0))
      },[])
     return companydata.loading ?(
         <div className={classes.root}>
@@ -67,26 +67,61 @@ const useStyles = makeStyles(theme => ({
 
 
 
-          {companydata.offset}
+          <h1>Offset is {companydata.offset}</h1>
+          <h1>name  is {companydata.sort}</h1>
+          <h1>Order  is {companydata.order}</h1>
+
           <Table className={classes.table} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell >
-                <TableSortLabel
-                onClick={() => dispatch(fetchCompanys(companydata.sort,"desc",10,0))}
+              <StyledTableCell
+                key="id" 
                 >
-                  company Name 
+                <TableSortLabel
+                direction={companydata.order==="desc"?"asc":"desc"}
+                onClick={() => dispatch(fetchCompanys("id",companydata.order==="desc"?"asc":"desc",10,0))}
+                >
+                 id
                 </TableSortLabel>
                 </StyledTableCell>
-                <StyledTableCell >company Name</StyledTableCell>
-                <StyledTableCell >company Name</StyledTableCell>
+
+
+                <StyledTableCell
+                key="name" 
+                >
+                <TableSortLabel
+                direction={companydata.order==="desc"?"asc":"desc"}
+                onClick={() => dispatch(fetchCompanys("name",companydata.order==="desc"?"asc":"desc",10,0))}
+                >
+                
+                 company Name 
+                </TableSortLabel>
+                </StyledTableCell>
+
+
+                <StyledTableCell
+                key="establishedDate" 
+                >
+                <TableSortLabel
+                direction={companydata.order==="desc"?"asc":"desc"}
+                onClick={() => dispatch(fetchCompanys("establishedDate",companydata.order==="desc"?"asc":"desc",10,0))}
+                >
+                
+                Established Date
+                </TableSortLabel>
+                </StyledTableCell>
+
+               
+
+
               </TableRow>
             </TableHead>
             <TableBody>
        {companydata && companydata.companys && companydata.companys.map(company =>  <StyledTableRow key={company.id}>
+      
+       <StyledTableCell component="th" scope="row">{company.id}</StyledTableCell>
        <StyledTableCell component="th" scope="row">{company.name}</StyledTableCell>
-       <StyledTableCell component="th" scope="row">{company.mobile}</StyledTableCell>
-       <StyledTableCell component="th" scope="row">{company.city}</StyledTableCell>
+       <StyledTableCell component="th" scope="row">{company.establishedDate}</StyledTableCell>
             </StyledTableRow>)}
             </TableBody>
       </Table>
