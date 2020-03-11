@@ -106,7 +106,6 @@ const useStyles = makeStyles(theme => ({
                 direction={companydata.order==="desc"?"asc":"desc"}
                 onClick={() => dispatch(fetchCompanys("establishedDate",companydata.order==="desc"?"asc":"desc",10,0))}
                 >
-                
                 Established Date
                 </TableSortLabel>
                 </StyledTableCell>
